@@ -8,23 +8,34 @@ import Arbitrary.arbitrary
 import java.time.OffsetDateTime
 
 import Payments._
+import scala.math._, BigDecimal._
 
 class PaymentsSpec extends CatsSpec { def is = s2"""
 
   This is a specification for validating Payments
 
   (Payments) should
-     be valuated properly           $e1 
-     be ordered                     $e2 
+     be valuated properly                         $e1 
+     be ordered                                   $e2 
+     be valuated properly with discounts          $e3 
   """
 
   import DataGen._
 
   def e1 = Prop.forAll(Gen.listOfN(10, PaymentGen)) { payments => 
-    valuation(payments) != Money.zeroMoney }
+    valuation(payments) != Money.zeroMoney 
+  }
 
   def e2 = Prop.forAll(Gen.listOfN(10, NonZeroPaymentGen) suchThat (_.nonEmpty)) { payments => 
     maxPayment(payments).toBaseCurrency === payments.map(creditAmount(_).toBaseCurrency).max
+  }
+
+  def e3 = Prop.forAll(Gen.listOfN(10, NonZeroPaymentGen) suchThat (_.nonEmpty)) { payments => 
+    val v = valuation(payments).toBaseCurrency 
+    val d = discountedValuation(payments).toBaseCurrency 
+
+    if (v === 0) true
+    else (((((v - d)/v)*100).setScale(0, RoundingMode.HALF_UP)) === 20)
   }
 }
 
