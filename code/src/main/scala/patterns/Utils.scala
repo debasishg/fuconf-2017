@@ -1,4 +1,4 @@
-package laws
+package patterns
 
 import cats._
 import cats.data._

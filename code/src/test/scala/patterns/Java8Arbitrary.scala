@@ -1,4 +1,4 @@
-package laws
+package patterns
 
 import java.time.{ Duration, Instant, LocalDate, LocalDateTime, LocalTime, OffsetDateTime, Period, YearMonth, ZonedDateTime, ZoneId }
 import org.scalacheck.{ Arbitrary, Gen }

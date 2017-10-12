@@ -1,4 +1,4 @@
-package laws
+package patterns
 
 import cats._
 import cats.data._
@@ -10,7 +10,7 @@ case object AUD extends Currency
 case object JPY extends Currency
 case object INR extends Currency
 
-class Money private[laws] (val items: Map[Currency, BigDecimal]) {
+class Money private[patterns] (val items: Map[Currency, BigDecimal]) {
   def toBaseCurrency: BigDecimal = items.foldLeft(BigDecimal(0)) { case (a, (ccy, amount)) =>
     a + Money.exchangeRateWithUSD.get(ccy).getOrElse(BigDecimal(1)) * amount
   }
