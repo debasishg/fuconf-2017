@@ -1,12 +1,13 @@
 package patterns
 
 import Money._
+import instances.MoneyInstances
 
 import cats._
 import cats.data._
 import cats.implicits._
 
-object Payments extends Utils {
+object Payments extends MoneyInstances with Utils {
   def creditAmount: Payment => Money = { p => if (p.amount.isDebit) zeroMoney else p.amount }
 
   // generic implementation
@@ -14,12 +15,12 @@ object Payments extends Utils {
   // abstraction - hence more reusable
   
   def valuation(payments: List[Payment]): Money = {
-    implicit val m: Monoid[Money] = Money.MoneyAddMonoid
+    implicit val m: Monoid[Money] = MoneyAddMonoid
     mapReduce(payments)(creditAmount)
   }
 
   def maxPayment(payments: List[Payment]): Money = {
-    implicit val m: Monoid[Money] = Money.MoneyOrderMonoid
+    implicit val m: Monoid[Money] = MoneyOrderMonoid
     mapReduce(payments)(creditAmount)
   }
 
@@ -32,7 +33,7 @@ object Payments extends Utils {
     // and hence the Map args here mappends. Again each Money has a Map which has a BigDecimal that
     // has a monoid - hence that Map also mappends
     
-    implicit val m = Money.MoneyAddMonoid
+    implicit val m = MoneyAddMonoid
     currentBalances |+| currentPayments
   }
 
@@ -46,7 +47,7 @@ object Payments extends Utils {
       else Money(p.amount.toBaseCurrency * -0.2, USD)
     }
 
-    implicit val m: Monoid[Money] = Money.MoneyAddMonoid
+    implicit val m: Monoid[Money] = MoneyAddMonoid
     mapReduce(payments)(creditAmount |+| discount)
   }
 }

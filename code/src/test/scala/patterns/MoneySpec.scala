@@ -7,7 +7,7 @@ import Prop.forAll
 import Arbitrary.arbitrary
 
 
-class MoneySpec extends CatsSpec { def is = s2"""
+class MoneySpec extends CatsSpec with instances.MoneyInstances { def is = s2"""
 
   This is a specification for validating laws of Money
 
@@ -18,8 +18,8 @@ class MoneySpec extends CatsSpec { def is = s2"""
 
   import MoneyDataGen._
 
-  def e1 = checkAll("Money", GroupLaws[Money].monoid(Money.MoneyAddMonoid))
-  def e2 = checkAll("Money", GroupLaws[Money].monoid(Money.MoneyOrderMonoid))
+  def e1 = checkAll("Money", GroupLaws[Money].monoid(MoneyAddMonoid))
+  def e2 = checkAll("Money", GroupLaws[Money].monoid(MoneyOrderMonoid))
 
   /*
   implicit val MoneyMonoid: Monoid[Money] = Money.MoneyAddMonoid

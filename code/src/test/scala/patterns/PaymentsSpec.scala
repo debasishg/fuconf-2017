@@ -10,7 +10,7 @@ import java.time.OffsetDateTime
 import Payments._
 import scala.math._, BigDecimal._
 
-class PaymentsSpec extends CatsSpec { def is = s2"""
+class PaymentsSpec extends CatsSpec with instances.MoneyInstances { def is = s2"""
 
   This is a specification for validating Payments
 
@@ -23,7 +23,7 @@ class PaymentsSpec extends CatsSpec { def is = s2"""
   import DataGen._
 
   def e1 = Prop.forAll(Gen.listOfN(10, PaymentGen)) { payments => 
-    valuation(payments) != Money.zeroMoney 
+    valuation(payments) != zeroMoney 
   }
 
   def e2 = Prop.forAll(Gen.listOfN(10, NonZeroPaymentGen) suchThat (_.nonEmpty)) { payments => 
