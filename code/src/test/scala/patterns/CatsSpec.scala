@@ -1,4 +1,4 @@
-package patterns
+package patterns.m1
 
 import org.specs2.Specification
 import org.typelevel.discipline.specs2.Discipline

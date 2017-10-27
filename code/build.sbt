@@ -3,6 +3,8 @@ val catsAll = "org.typelevel" %% "cats" % catsVersion
 val macroParadise = compilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 val kindProjector = compilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 val resetAllAttrs = "org.scalamacros" %% "resetallattrs" % "1.0.0-M1"
+val monix = "io.monix" %% "monix" % "2.3.0"
+val monixCats = "io.monix" %% "monix-cats" % "2.3.0"
 
 val specs2Version = "3.8.9" // use the version used by discipline
 val specs2Core  = "org.specs2" %% "specs2-core" % specs2Version
@@ -21,7 +23,8 @@ lazy val commonSettings = Seq(
   libraryDependencies ++= Seq(
       catsAll,
       specs2Core % Test, specs2Scalacheck % Test, scalacheck % Test,
-      macroParadise, kindProjector
+      macroParadise, kindProjector,
+      monix, monixCats
     )
 )
 

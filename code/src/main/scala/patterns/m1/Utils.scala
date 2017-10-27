@@ -1,4 +1,4 @@
-package patterns
+package patterns.m1
 
 import cats._
 import cats.data._

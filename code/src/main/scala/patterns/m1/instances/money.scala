@@ -1,4 +1,4 @@
-package patterns
+package patterns.m1
 package instances
 
 import cats._
